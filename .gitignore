@@ -1,0 +1,12 @@
+# Artefatos de compilação
+*.exe
+*.o
+*.out
+
+# Arquivos gerados pelo sistema
+*.huff
+texto_recuperado.txt
+arquivo_secreto.huff
+
+# Outros
+.vscode/

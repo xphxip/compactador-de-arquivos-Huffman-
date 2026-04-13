@@ -1,0 +1,35 @@
+# depslib dependency file v1.0
+1775331040 source:c:\users\leand\desktop\compactador de arquivo em c\compress.c
+	"compress.h"
+	<string.h>
+
+1775330145 c:\users\leand\desktop\compactador de arquivo em c\compress.h
+	"huffman.h"
+
+1775330117 c:\users\leand\desktop\compactador de arquivo em c\huffman.h
+	"structures.h"
+
+1775330089 c:\users\leand\desktop\compactador de arquivo em c\structures.h
+	<stdio.h>
+	<stdlib.h>
+
+1775330175 source:c:\users\leand\desktop\compactador de arquivo em c\decompress.c
+	"decompress.h"
+
+1775330157 c:\users\leand\desktop\compactador de arquivo em c\decompress.h
+	"huffman.h"
+
+1775330129 source:c:\users\leand\desktop\compactador de arquivo em c\huffman.c
+	"huffman.h"
+	<string.h>
+
+1775331866 source:c:\users\leand\desktop\compactador de arquivo em c\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"compress.h"
+	"decompress.h"
+
+1775330100 source:c:\users\leand\desktop\compactador de arquivo em c\structures.c
+	"structures.h"
+
