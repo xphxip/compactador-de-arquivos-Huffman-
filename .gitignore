@@ -5,8 +5,12 @@
 
 # Arquivos gerados pelo sistema
 *.huff
+*_recuperado.*
+*.mp4
+*.mp3
+*.png
 texto_recuperado.txt
 arquivo_secreto.huff
 
 # Outros
-.vscode/
+# Permitindo .vscode para que todos os devs peguem a build pronta

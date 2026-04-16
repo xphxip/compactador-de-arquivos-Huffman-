@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1775331040 source:c:\users\leand\desktop\compactador de arquivo em c\compress.c
+1776360701 source:c:\users\leand\desktop\compactador de arquivo em c\compress.c
 	"compress.h"
 	<string.h>
 
@@ -23,7 +23,7 @@
 	"huffman.h"
 	<string.h>
 
-1775331866 source:c:\users\leand\desktop\compactador de arquivo em c\main.c
+1776359921 source:c:\users\leand\desktop\compactador de arquivo em c\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

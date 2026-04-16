@@ -1,0 +1,31 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "Compilar Projeto (VS Code)",
+            "command": "gcc",
+            "args": [
+                "-g",
+                "main.c",
+                "compress.c",
+                "decompress.c",
+                "huffman.c",
+                "structures.c",
+                "-o",
+                "${workspaceFolder}\\compressor.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Tarefa padrao para o VS Code compilar todos os arquivos integrados."
+        }
+    ]
+}

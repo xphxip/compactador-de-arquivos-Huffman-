@@ -30,47 +30,67 @@ int main(int argc, char* argv[]) {
         while ((ch = getchar()) != '\n' && ch != EOF);
         
         if (opcao == 1) {
-            char inputFile[256];
-            char outputFile[256] = "arquivo.huff"; // padrão
+            char arquivoOriginal[256];
+            char arquivoHuff[512];
             
-            printf("\nDigite o nome ou caminho do arquivo para compactar (ex: imagem.png, video.mp4, texto.txt):\n> ");
-            scanf(" %255[^\n]", inputFile);
+            printf("\nDigite o nome ou caminho do arquivo para compactar (ex: imagem.png, musica.mp3, video.mp4):\n> ");
+            scanf(" %255[^\n]", arquivoOriginal);
             
             while ((ch = getchar()) != '\n' && ch != EOF);
             
-            printf("Digite o nome do arquivo de saida (ou pressione ENTER para usar o padrao 'arquivo.huff'):\n> ");
-            char temp[256] = "";
-            fgets(temp, sizeof(temp), stdin);
-            if (temp[0] != '\n' && temp[0] != '\0') {
-                temp[strcspn(temp, "\n")] = '\0';
-                strcpy(outputFile, temp);
-            }
+            // O arquivo de saida sera o proprio nome do arquivo + ".huff" (nome unico)
+            snprintf(arquivoHuff, sizeof(arquivoHuff), "%s.huff", arquivoOriginal);
             
-            printf("\nIniciando compactacao do arquivo '%s'...\n", inputFile);
-            compressFile(inputFile, outputFile);
-            printf("Compactacao concluida! Arquivo '%s' gerado.\n", outputFile);
+            printf("\nIniciando compactacao do arquivo '%s'...\n", arquivoOriginal);
+            compressFile(arquivoOriginal, arquivoHuff);
+            printf("Compactacao concluida! Arquivo '%s' gerado automaticamente.\n", arquivoHuff);
+            
+            // Atendendo ao seu pedido: apagar o arquivo original (mp3/txt/mp4) apos compactar!
+            if (remove(arquivoOriginal) == 0) {
+                printf(" -> Arquivo original '%s' apagado do disco! Agora so resta o '.huff'.\n", arquivoOriginal);
+            } else {
+                printf(" -> Aviso: Nao foi possivel apagar o arquivo original '%s'.\n", arquivoOriginal);
+            }
         } 
         else if (opcao == 2) {
-            char inputFile[256];
-            char outputFile[256];
+            char arquivoHuff[256];
+            char fileType[32];
+            char arquivoRestaurado[512];
             
             printf("\nDigite o nome ou caminho do arquivo .huff para descompactar:\n> ");
-            scanf(" %255[^\n]", inputFile);
+            scanf(" %255[^\n]", arquivoHuff);
             
             while ((ch = getchar()) != '\n' && ch != EOF);
             
-            printf("Digite o nome que o arquivo tera ao ser restaurado (ex: imagem_recuperada.png):\n> ");
-            scanf(" %255[^\n]", outputFile);
+            printf("Qual e o TIPO original desse arquivo? (ex: mp3, png, txt, mp4):\n> ");
+            scanf(" %31[^\n]", fileType);
             
-            printf("\nIniciando descompactacao de '%s' para '%s'...\n", inputFile, outputFile);
-            decompressFile(inputFile, outputFile);
-            printf("Descompactacao concluida! O arquivo foi restaurado para '%s'.\n", outputFile);
+            while ((ch = getchar()) != '\n' && ch != EOF);
+            
+            // Tratar caso o usuario digite com ponto (ex: ".mp3" ao inves de "mp3")
+            char* ext = fileType;
+            if (ext[0] == '.') ext++;
+            
+            // Pegar o nome base removendo o ".huff"
+            char baseName[256];
+            strcpy(baseName, arquivoHuff);
+            char* ptrHuff = strstr(baseName, ".huff");
+            if (ptrHuff != NULL) {
+                *ptrHuff = '\0';
+            }
+            
+            // Gerar nome unico final de forma automatizada
+            snprintf(arquivoRestaurado, sizeof(arquivoRestaurado), "%s_recuperado.%s", baseName, ext);
+            
+            printf("\nIniciando descompactacao de '%s' para '%s'...\n", arquivoHuff, arquivoRestaurado);
+            decompressFile(arquivoHuff, arquivoRestaurado);
+            printf("Descompactacao concluida! O arquivo foi restaurado para '%s'.\n", arquivoRestaurado);
             
             // Apaga o arquivo *.huff do disco apos criar o outro
-            if (remove(inputFile) == 0) {
-                printf("\n -> Arquivo comprimido '%s' foi apagado do seu HD com sucesso!\n", inputFile);
+            if (remove(arquivoHuff) == 0) {
+                printf("\n -> Arquivo comprimido '%s' apagado do seu HD com sucesso!\n", arquivoHuff);
             } else {
-                printf("\n -> Nao foi possivel apagar o arquivo '%s'.\n", inputFile);
+                printf("\n -> Aviso: Nao foi possivel apagar o arquivo comprimido '%s'.\n", arquivoHuff);
             }
         } 
         else {
