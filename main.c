@@ -15,8 +15,8 @@ int main(int argc, char* argv[]) {
     if (argc == 1) {
         int opcao = 0;
         printf("--- MENU DO COMPACTADOR HUFFMAN ---\n");
-        printf("1. Compactar texto.txt para arquivo_secreto.huff\n");
-        printf("2. Descompactar arquivo_secreto.huff para texto_recuperado.txt\n");
+        printf("1. Compactar um arquivo\n");
+        printf("2. Descompactar um arquivo\n");
         printf("3. Sair\n");
         printf("Escolha uma opcao digitando o numero: ");
         
@@ -25,21 +25,52 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         
+        // Limpar o buffer do teclado para ler strings depois
+        int ch;
+        while ((ch = getchar()) != '\n' && ch != EOF);
+        
         if (opcao == 1) {
-            printf("\nIniciando compactacao...\n");
-            compressFile("c:\\Users\\leand\\Desktop\\compactador de arquivo em C\\texto.txt", "c:\\Users\\leand\\Desktop\\compactador de arquivo em C\\arquivo_secreto.huff");
-            printf("Compactacao concluida! Arquivo '.huff' gerado.\n");
+            char inputFile[256];
+            char outputFile[256] = "arquivo.huff"; // padrão
+            
+            printf("\nDigite o nome ou caminho do arquivo para compactar (ex: imagem.png, video.mp4, texto.txt):\n> ");
+            scanf(" %255[^\n]", inputFile);
+            
+            while ((ch = getchar()) != '\n' && ch != EOF);
+            
+            printf("Digite o nome do arquivo de saida (ou pressione ENTER para usar o padrao 'arquivo.huff'):\n> ");
+            char temp[256] = "";
+            fgets(temp, sizeof(temp), stdin);
+            if (temp[0] != '\n' && temp[0] != '\0') {
+                temp[strcspn(temp, "\n")] = '\0';
+                strcpy(outputFile, temp);
+            }
+            
+            printf("\nIniciando compactacao do arquivo '%s'...\n", inputFile);
+            compressFile(inputFile, outputFile);
+            printf("Compactacao concluida! Arquivo '%s' gerado.\n", outputFile);
         } 
         else if (opcao == 2) {
-            printf("\nIniciando descompactacao...\n");
-            decompressFile("c:\\Users\\leand\\Desktop\\compactador de arquivo em C\\arquivo_secreto.huff", "c:\\Users\\leand\\Desktop\\compactador de arquivo em C\\texto_recuperado.txt");
-            printf("Descompactacao concluida! O arquivo foi restaurado.\n");
+            char inputFile[256];
+            char outputFile[256];
             
-            // Apaga o arquivo *.huff do disco apos criar o txt
-            if (remove("c:\\Users\\leand\\Desktop\\compactador de arquivo em C\\arquivo_secreto.huff") == 0) {
-                printf("\n -> Arquivo comprimido 'arquivo_secreto.huff' foi apagado do seu HD com sucesso!\n");
+            printf("\nDigite o nome ou caminho do arquivo .huff para descompactar:\n> ");
+            scanf(" %255[^\n]", inputFile);
+            
+            while ((ch = getchar()) != '\n' && ch != EOF);
+            
+            printf("Digite o nome que o arquivo tera ao ser restaurado (ex: imagem_recuperada.png):\n> ");
+            scanf(" %255[^\n]", outputFile);
+            
+            printf("\nIniciando descompactacao de '%s' para '%s'...\n", inputFile, outputFile);
+            decompressFile(inputFile, outputFile);
+            printf("Descompactacao concluida! O arquivo foi restaurado para '%s'.\n", outputFile);
+            
+            // Apaga o arquivo *.huff do disco apos criar o outro
+            if (remove(inputFile) == 0) {
+                printf("\n -> Arquivo comprimido '%s' foi apagado do seu HD com sucesso!\n", inputFile);
             } else {
-                printf("\n -> Nao foi possivel apagar o arquivo '.huff'.\n");
+                printf("\n -> Nao foi possivel apagar o arquivo '%s'.\n", inputFile);
             }
         } 
         else {
