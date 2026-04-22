@@ -2,7 +2,14 @@ CC = gcc
 CFLAGS = -Wall -Wextra -O2
 
 OBJS = structures.o huffman.o compress.o decompress.o main.o
-TARGET = compressor.exe
+
+ifeq ($(OS),Windows_NT)
+	TARGET = compressor.exe
+	RM = del /Q
+else
+	TARGET = compressor
+	RM = rm -f
+endif
 
 all: $(TARGET)
 
@@ -25,4 +32,4 @@ main.o: main.c compress.h decompress.h
 	$(CC) $(CFLAGS) -c main.c
 
 clean:
-	del /Q *.o $(TARGET)
+	$(RM) *.o $(TARGET)
