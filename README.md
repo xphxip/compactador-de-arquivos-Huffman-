@@ -11,16 +11,16 @@ Neste documento, você vai encontrar a explicação de **cada arquivo, estrutura
 Antes de entender as engrenagens, o código pode ser compilado e executado de duas formas principais, graças ao sistema presente no arquivo `main.c`.
 
 1. **Via Makefile (Sugerido)**
-   - No terminal, digite `make` para compilar todo o código e gerar um executável chamado `compressor.exe`.
-   - Você pode limpar os executáveis a qualquer momento utilizando `make clean`.
+   - No terminal, digite `make` para compilar todo o código e gerar um executável multiplataforma chamado `compressor.exe` (no Windows) ou `compressor` (no Linux/macOS).
+   - Você pode limpar os executáveis a qualquer momento utilizando `make clean` em qualquer um dos dois sistemas.
 
 2. **Interface pelo VS Code / Modo Interativo**
    - Caso você apenas rode o código principal no seu editor ou sem nenhum argumento extra no terminal, ele abrirá um **Menu Interativo**.
    - No menu, digite `1` para compactar o arquivo padrão `texto.txt` para `arquivo_secreto.huff`.
    - Digite `2` para descompactar o arquivo `.huff` de volta para um formato legível (`texto_recuperado.txt`). *(Obs: Após recuperar, ele deleta o .huff por padrão para economizar espaço e limpar rastros!)*
 
-3. **Modo Termminal (Linha de Comando Exata)**
-   - O projeto suporta compactação de quaisquer arquivos via terminal se usar as flags de argumento:
+3. **Modo Terminal (Linha de Comando Exata)**
+   - O projeto suporta compactação de quaisquer arquivos via terminal se usar as flags de argumento *(Lembre-se de omitir o `.exe` caso esteja utilizando Linux ou macOS)*:
    - Para compactar: `./compressor.exe -c [arquivo original] [arquivo .huff de saida]`
    - Para descompactar: `./compressor.exe -d [arquivo .huff de entrada] [arquivo txt restaurado]`
 
