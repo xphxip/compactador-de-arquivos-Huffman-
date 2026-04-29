@@ -1,10 +1,12 @@
 #include "huffman.h"
 #include <string.h>
+#include <errno.h>
 
 void calculateFrequencies(const char* filename, unsigned int* frequencies) {
     FILE* file = fopen(filename, "rb");
     if (!file) {
-        fprintf(stderr, "Erro ao abrir o arquivo para leitura de frequências: %s\n", filename);
+        perror("Erro ao abrir o arquivo para leitura de frequências");
+        fprintf(stderr, "Tentando abrir: '%s'\n", filename);
         exit(1);
     }
     

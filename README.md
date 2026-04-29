@@ -16,8 +16,8 @@ Antes de entender as engrenagens, o código pode ser compilado e executado de du
 
 2. **Interface pelo VS Code / Modo Interativo**
    - Caso você apenas rode o código principal no seu editor ou sem nenhum argumento extra no terminal, ele abrirá um **Menu Interativo**.
-   - No menu, digite `1` para compactar o arquivo padrão `texto.txt` para `arquivo_secreto.huff`.
-   - Digite `2` para descompactar o arquivo `.huff` de volta para um formato legível (`texto_recuperado.txt`). *(Obs: Após recuperar, ele deleta o .huff por padrão para economizar espaço e limpar rastros!)*
+    - No menu, digite `1` para compactar qualquer arquivo (o programa agora mostra sua pasta atual para facilitar a localização).
+    - Digite `2` para descompactar um arquivo `.huff` de volta para o formato original. O programa cuidará de gerar um nome único como `nome_recuperado.extensao`.
 
 3. **Modo Terminal (Linha de Comando Exata)**
    - O projeto suporta compactação de quaisquer arquivos via terminal se usar as flags de argumento *(Lembre-se de omitir o `.exe` caso esteja utilizando Linux ou macOS)*:
@@ -64,6 +64,13 @@ Essa é a verdadeira alma algorítmica deste projeto. Ele se vale das peças mol
   5. Insere de novo o nó Falso gigante na fila. Repete o loop unindo ramos até sobrar 1 Grande e Massivo Nó (A raiz central conectando todos os menores!).
 - `generateCodes()`: É o Desbravador! Ele desce da Raiz Suprema até varrer todas as pontas da Árvore simultaneamente de forma recursiva. Sempre que desce pela Esquerda salva o símbolo `"0"`, ao descer pela Direita salva `"1"`. Bateu numa "Folha" (Letra sem filhos)? Copie a sequência de rotas de `0`s e `1`s e guarde no `dictionary[]` no espaço exato pertencente a aquela letra alcançada. Assim nasceu a língua de sinais privada dessa sua Árvore de Huffman.
 - `freeTree()`: O Lixeiro da Máquina. Varre todo as conexões ativas na Memória RAM criadas para a Árvore de Huffman e deleta recursivamente todos os vestígios dela via o comando `free(root)`.
+
+### 3. Melhorias Recentes e Robustez
+Recentemente, o projeto recebeu atualizações para torná-lo mais amigável e menos propenso a erros de usuário:
+- **Tratamento de Erros Profissional**: Agora utilizamos `perror` e `errno.h` para diagnosticar exatamente por que um arquivo não abre (seja por permissão, arquivo inexistente ou caminho errado).
+- **Consciência de Caminho (Path Awareness)**: O programa agora identifica e exibe o diretório de execução atual (`CWD`), ajudando o usuário a saber onde colocar seus arquivos.
+- **Limpeza de Strings**: Entradas de teclado agora passam por uma limpeza automática de espaços extras e caracteres de quebra de linha (`\r`, `\t`), evitando erros silenciosos no Windows.
+- **Nomenclatura Inteligente**: A descompactação agora limpa extensões duplicadas, gerando nomes de arquivos restaurados muito mais limpos e organizados.
 
 ---
 

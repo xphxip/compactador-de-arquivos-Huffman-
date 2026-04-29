@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef _WIN32
+#include <direct.h>
+#define getcwd _getcwd
+#else
+#include <unistd.h>
+#endif
 
 #include "compress.h"
 #include "decompress.h"
@@ -33,8 +39,18 @@ int main(int argc, char* argv[]) {
             char arquivoOriginal[256];
             char arquivoHuff[512];
             
-            printf("\nDigite o nome ou caminho do arquivo para compactar (ex: imagem.png, musica.mp3, video.mp4):\n> ");
+            char cwd[1024];
+            if (getcwd(cwd, sizeof(cwd)) != NULL) {
+                printf("(Pasta atual: %s)\n", cwd);
+            }
+            printf("Digite o nome ou caminho do arquivo para compactar (ex: imagem.png, musica.mp3, video.mp4):\n> ");
             scanf(" %255[^\n]", arquivoOriginal);
+            
+            // Remover possiveis espaços ou \r ao final (comum no Windows)
+            size_t len = strlen(arquivoOriginal);
+            while (len > 0 && (arquivoOriginal[len-1] == ' ' || arquivoOriginal[len-1] == '\r' || arquivoOriginal[len-1] == '\t')) {
+                arquivoOriginal[--len] = '\0';
+            }
             
             while ((ch = getchar()) != '\n' && ch != EOF);
             
@@ -60,6 +76,12 @@ int main(int argc, char* argv[]) {
             printf("\nDigite o nome ou caminho do arquivo .huff para descompactar:\n> ");
             scanf(" %255[^\n]", arquivoHuff);
             
+            // Remover possiveis espaços ou \r ao final
+            size_t lenH = strlen(arquivoHuff);
+            while (lenH > 0 && (arquivoHuff[lenH-1] == ' ' || arquivoHuff[lenH-1] == '\r' || arquivoHuff[lenH-1] == '\t')) {
+                arquivoHuff[--lenH] = '\0';
+            }
+            
             while ((ch = getchar()) != '\n' && ch != EOF);
             
             printf("Qual e o TIPO original desse arquivo? (ex: mp3, png, txt, mp4):\n> ");
@@ -77,6 +99,12 @@ int main(int argc, char* argv[]) {
             char* ptrHuff = strstr(baseName, ".huff");
             if (ptrHuff != NULL) {
                 *ptrHuff = '\0';
+            }
+            
+            // Remover a extensão do nome base para evitar duplicação
+            char* ptrDot = strrchr(baseName, '.');
+            if (ptrDot != NULL) {
+                *ptrDot = '\0';
             }
             
             // Gerar nome unico final de forma automatizada
